@@ -4,11 +4,13 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public TextMeshProUGUI highScoreText;
     public TextMeshProUGUI scoreText;
     public GameObject gameOverText;
     public GameObject restartButton;
 
     int score = 0;
+    int highScore;
     bool isGameOver = false;
 
     void Start()
@@ -17,6 +19,10 @@ public class GameManager : MonoBehaviour
         restartButton.SetActive(false);
 
         scoreText.text = "Score: 0";
+
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+
+    highScoreText.text = "High Score: " + highScore;
     }
 
     public void AddScore()
@@ -25,6 +31,15 @@ public class GameManager : MonoBehaviour
         {
             score++;
             scoreText.text = "Score: " + score;
+
+            if (score > highScore)
+            {
+                highScore = score;
+
+                PlayerPrefs.SetInt("HighScore", highScore);
+
+                highScoreText.text = "High Score: " + highScore;
+            }
         }
     }
     public int GetDifficultyLevel()
